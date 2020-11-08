@@ -12,7 +12,7 @@ timeMat = 0.0
 
 kp = 1
 ki = 0.04
-kd = 0.05
+kd = 0.02
 
 lastError = 0
 sumError = 0
