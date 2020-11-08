@@ -15,8 +15,8 @@ cont = 0
 velAng=0.3
 
 
-kp = 0.2
-ki = 0.01
+kp = 0.3
+ki = 0.015
 kd = 0.02
 
 lastError = 0
@@ -75,15 +75,15 @@ def timerCallBack(event):
         
     # POSICIONA DIRECAO ---------------------------------   
     elif estado == 'busca':
-        print(min(scan.ranges[scan_len-10 : scan_len+10]))
-        if min(scan.ranges[scan_len-10 : scan_len+10]) < 100:
+        print(min(scan.ranges[scan_len-20 : scan_len+20]))
+        if min(scan.ranges[scan_len-5 : scan_len+5]) < 100:
            
             estado = 'avanca'
             #msg.angular.z = -velAng
             msg.angular.z = 0
         else:
             if min(scan.ranges[scan_len-20 : scan_len+20]) < 100:
-                msg.angular.z = velAng*0.2
+                msg.angular.z = velAng*0.5
             else:
                 msg.angular.z = velAng
             
@@ -92,7 +92,7 @@ def timerCallBack(event):
   
     # AVANCA --------------------------------
     
-        read = min(scan.ranges[scan_len-10 : scan_len+10])
+        read = min(scan.ranges[scan_len-5 : scan_len+5])
         P=I=D=0
         if read < 100:
             error = -(setpoint - read)
@@ -104,7 +104,6 @@ def timerCallBack(event):
             D = kd*varError
         
         control = P+I+D
-        #print(P, I, D, control)
         print(read, P, I, D)
         
         if control > 1:
@@ -112,7 +111,7 @@ def timerCallBack(event):
         elif control < -1:
             control = -1
         
-        
+          
         msg.linear.x = control
         msg.angular.z = 0
 
