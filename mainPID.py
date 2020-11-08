@@ -14,8 +14,8 @@ ang = 0
 cont = 0
 
 
-kp = 0.2
-ki = 0.08
+kp = 0.3
+ki = 0.04
 kd = 0.02
 
 lastError = 0
