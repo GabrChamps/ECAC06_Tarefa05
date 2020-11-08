@@ -111,7 +111,7 @@ def timerCallBack(event):
             msg.linear.x = control
             msg.angular.z = 0
         else:
-            msg.linear.x = 0.05
+            msg.linear.x = control
             msg.angular.z = -0.3
             cont +=1
 
