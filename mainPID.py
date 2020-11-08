@@ -1,5 +1,4 @@
 #git add mainPID.py && git commit -m 'commit' && git push origin main
-#(-3.4659218943352688, 0.27264989346395296)
 import rospy
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
@@ -13,6 +12,7 @@ timeMat = 0.0
 estado = "busca"
 ang = 0
 cont = 0
+velAng=0.3
 
 
 kp = 0.1
@@ -63,7 +63,7 @@ def scanCallBack(msg):
 
 # TIMER - Control Loop ----------------------------------------------
 def timerCallBack(event):
-    global lastError, sumError, estado, cont
+    global lastError, sumError, estado, cont, velAng
     
     setpoint = 0.5
     scan_len = len(scan.ranges)
@@ -75,23 +75,21 @@ def timerCallBack(event):
         
     # POSICIONA DIRECAO ---------------------------------   
     elif estado == 'busca':
-        print(min(scan.ranges[scan_len-5 : scan_len+5]))
-        if min(scan.ranges[scan_len-5 : scan_len+5]) < 100:
+        print(min(scan.ranges[scan_len-10 : scan_len+10]))
+        if min(scan.ranges[scan_len-10 : scan_len+10]) < 100:
            
             estado = 'avanca'
-            msg.angular.z = -0.3
+            msg.angular.z = -velAng
             
         else:
-            msg.angular.z = 0.3
+            msg.angular.z = velAng
             
 
     elif estado == 'avanca':
   
     # AVANCA --------------------------------
     
-        read = min(scan.ranges[scan_len-5 : scan_len+5])
-        right = min(scan.ranges[scan_len-0 : scan_len+15])
-        left = min(scan.ranges[scan_len-15 : scan_len+0])
+        read = min(scan.ranges[scan_len-10 : scan_len+10])
 
         error = -(setpoint - read)
         varError = (error-lastError)/timeMat
@@ -102,7 +100,7 @@ def timerCallBack(event):
         D = kd*varError
         control = P+I+D
         #print(P, I, D, control)
-        print(read)
+        print('distancia: '+str(min(scan.ranges[scan_len-10 : scan_len+10])))
         
         if control > 1:
             control = 1
@@ -110,21 +108,18 @@ def timerCallBack(event):
             control = -1
         
         
-        #if cont> 0.7*freqMat:    
-        #    msg.linear.x = control
-        #    msg.angular.z = 0
-        #else:
-        #    msg.linear.x = 0
-        #    msg.angular.z = -0.1
-        #    cont +=1
-        msg.linear.x = control
-        if right < read:
-            msg.angular.z = +0.3
-        elif left < read:
-            msg.angular.z = -0.3
-        else:
+        if cont> 0.7*freqMat:    
+            msg.linear.x = control
             msg.angular.z = 0
+        else:
+            msg.linear.x = 0
+            msg.angular.z = -0.1
+            cont +=1
 
+        if read>100:
+            estado = 'busca'
+            velAng = -velAng
+            
         if abs(error) < 0.05 and abs(sumError) <0.1 and abs(varError) <0.01:
             estado = 'chegou'
             print ('Chegou ao destino')
