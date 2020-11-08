@@ -120,7 +120,7 @@ def timerCallBack(event):
 
         if read>100:
             estado = 'busca'
-            velAng = -velAng
+            #velAng = -velAng
             
         
     
