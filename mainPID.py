@@ -94,7 +94,7 @@ def timerCallBack(event):
   
     # AVANCA --------------------------------
     
-        read = min(scan.ranges[scan_len-10 : scan_len+10])
+        read = min(scan.ranges[scan_len-15 : scan_len+15])
         P=I=D=0
         if read < 100:
             error = -(setpoint - read)
