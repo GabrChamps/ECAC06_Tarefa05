@@ -75,8 +75,8 @@ def timerCallBack(event):
         
     # POSICIONA DIRECAO ---------------------------------   
     elif estado == 'busca':
-        print(min(scan.ranges[scan_len-5 : scan_len+5]))
-        if min(scan.ranges[scan_len-5 : scan_len+5]) < 100:
+        print(min(scan.ranges[scan_len-10 : scan_len+10]))
+        if min(scan.ranges[scan_len-10 : scan_len+10]) < 100:
            
             estado = 'avanca'
             #msg.angular.z = -velAng
