@@ -10,6 +10,7 @@ matriculas = [2017003772]
 freqMat = 0.0
 timeMat = 0.0
 estado = "busca"
+cont = 0
 
 
 kp = 1
@@ -60,7 +61,7 @@ def scanCallBack(msg):
 
 # TIMER - Control Loop ----------------------------------------------
 def timerCallBack(event):
-    global lastError, sumError, estado
+    global lastError, sumError, estado, cont
     
     setpoint = 0.5
     scan_len = len(scan.ranges)
@@ -71,7 +72,9 @@ def timerCallBack(event):
         if scan_len > 0:
             print(min(scan.ranges[scan_len-10 : scan_len+10]))
             if min(scan.ranges[scan_len-10 : scan_len+10]) < 100:
-                estado = 'avanca'
+                cont +=1
+                if cont> freqMat:
+                    estado = 'avanca'
                 msg.angular.z = 0
             
             else:
