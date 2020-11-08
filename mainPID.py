@@ -67,7 +67,7 @@ def timerCallBack(event):
     msg = Twist()
    
     # POSICIONA DIRECAO ---------------------------------   
-    elif estado == 'busca':
+    if estado == 'busca':
         if scan_len > 0:
             print(min(scan.ranges[scan_len-10 : scan_len+10]))
             if min(scan.ranges[scan_len-10 : scan_len+10]) < 100:
@@ -75,7 +75,7 @@ def timerCallBack(event):
                 msg.angular.z = 0
             
             else:
-                msg.angular.z = 0.5  
+                msg.angular.z = 0.3 
         
         else:
             msg.angular.z = 0
