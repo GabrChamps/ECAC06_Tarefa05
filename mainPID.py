@@ -108,13 +108,13 @@ def timerCallBack(event):
             control = -1
         
         
-        if cont> 0.7*freqMat:    
-            msg.linear.x = control
-            msg.angular.z = 0
-        else:
-            msg.linear.x = 0
-            msg.angular.z = -0.1
-            cont +=1
+        #if cont> 0.7*freqMat:    
+        msg.linear.x = control
+        msg.angular.z = 0
+        #else:
+        #    msg.linear.x = 0
+        #    msg.angular.z = -0.1
+        #    cont +=1
 
         if read>100:
             estado = 'busca'
