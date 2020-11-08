@@ -9,6 +9,8 @@ import math
 matriculas = [2017003772]
 freqMat = 0.0
 timeMat = 0.0
+estado = "busca"
+
 
 kp = 1
 ki = 0.04
@@ -58,50 +60,61 @@ def scanCallBack(msg):
 
 # TIMER - Control Loop ----------------------------------------------
 def timerCallBack(event):
-    global lastError, sumError
-    """
-    yaw = getAngle(odom)
-    setpoint = -45
-    error = (setpoint - yaw)
-    
-    if abs(error) > 180:
-        if setpoint < 0:
-            error += 360 
-        else:
-            error -= 360
-    """
-    """
-    setpoint = (-1,-1)
-    position = odom.pose.pose.position
-    dist = setpoint[0] - position.x #math.sqrt((setpoint[0] - position.x)**2 + (setpoint[1] - position.y) **2)
-    error = dist
-    """
+    global lastError, sumError, estado
     
     setpoint = 0.5
-    
     scan_len = len(scan.ranges)
-    if scan_len > 0:
-        read = min(scan.ranges[scan_len-10 : scan_len+10])
-
-        error = -(setpoint - read)
-        varError = (error-lastError)/timeMat
-        sumError+=error*timeMat
-        
-        P = kp*error
-        I = ki*sumError
-        D = kd*varError
-        control = P+I+D
-        print(P, I, D, control)
-        
-        if control > 1:
-            control = 1
-        elif control < -1:
-            control = -1
-    else:
-        control = 0        
-    
     msg = Twist()
-    msg.linear.x = control
+   
+    # POSICIONA DIRECAO ---------------------------------   
+    if estado == 'busca':
+        if scan_len > 0:
+            if min(scan.ranges[scan_len-10 : scan_len+10]) < 100:
+                estado = 'avanca'
+                msg.angular.z = 0
+            
+            else:
+                msg.angular.z = 0.5  
+        
+        else:
+            msg.angular.z = 0
+        
+    elif estado == 'avanca':
+  
+    # AVANCA --------------------------------
+    
+        if scan_len > 0:
+            read = min(scan.ranges[scan_len-10 : scan_len+10])
+    
+            error = -(setpoint - read)
+            varError = (error-lastError)/timeMat
+            sumError+=error*timeMat
+            
+            P = kp*error
+            I = ki*sumError
+            D = kd*varError
+            control = P+I+D
+            print(P, I, D, control)
+            
+            if control > 1:
+                control = 1
+            elif control < -1:
+                control = -1
+        else:
+            control = 0        
+        
+        msg.linear.x = control
+        
+        if abs(error) < 0.05 and abs(sumError) <0.1 and abs(varError) <0.01:
+            estado = 'chegou'
+            print ('Chegou ao destino')
+    
+    elif estado == 'chegou':
+        msg.linear.x = 0
+        msg.angular.z = 0
+    
+    
+    
     pub.publish(msg)
     
 
