@@ -9,7 +9,7 @@ import math
 matriculas = [2017003772]
 freqMat = 0.0
 timeMat = 0.0
-estado = "teste"
+estado = "busca"
 
 
 kp = 1
@@ -67,15 +67,9 @@ def timerCallBack(event):
     msg = Twist()
    
     # POSICIONA DIRECAO ---------------------------------   
-    if estado =='teste':
-        if scan_len > 0:
-            print(min(scan.ranges[scan_len-10 : scan_len+10]))
-            msg.angular.z = 0.5
-            
-            
-    
     elif estado == 'busca':
         if scan_len > 0:
+            print(min(scan.ranges[scan_len-10 : scan_len+10]))
             if min(scan.ranges[scan_len-10 : scan_len+10]) < 100:
                 estado = 'avanca'
                 msg.angular.z = 0
