@@ -96,10 +96,10 @@ def timerCallBack(event):
             varError = (error-lastError)/timeMat
             sumError+=error*timeMat
             
-            P = kp*error
-            I = ki*sumError
-            D = kd*varError
-            control = P+I+D
+        P = kp*error
+        I = ki*sumError
+        D = kd*varError
+        control = P+I+D
         #print(P, I, D, control)
         print(read, P, I, D)
         
