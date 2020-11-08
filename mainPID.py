@@ -77,7 +77,7 @@ def timerCallBack(event):
         print(min(scan.ranges[scan_len-10 : scan_len+10]))
         if min(scan.ranges[scan_len-10 : scan_len+10]) < 100:
             cont+=1
-            if cont >10:
+            if cont >freqMat:
                 estado = 'avanca'
                 msg.angular.z = 0
             else:
