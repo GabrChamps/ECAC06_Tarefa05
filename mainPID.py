@@ -95,7 +95,8 @@ def timerCallBack(event):
             I = ki*sumError
             D = kd*varError
             control = P+I+D
-            print(P, I, D, control)
+            #print(P, I, D, control)
+            print(min(scan.ranges[scan_len-10 : scan_len+10]))
             
             if control > 1:
                 control = 1
