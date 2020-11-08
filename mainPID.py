@@ -14,7 +14,7 @@ ang = 0
 cont = 0
 
 
-kp = 0.15
+kp = 0.2
 ki = 0.08
 kd = 0.02
 
@@ -102,7 +102,7 @@ def timerCallBack(event):
         D = kd*varError
         control = P+I+D
         #print(P, I, D, control)
-        print(min(scan.ranges[scan_len-10 : scan_len+10]))
+        print('distancia: '+str(min(scan.ranges[scan_len-10 : scan_len+10])))
         
         if control > 1:
             control = 1
