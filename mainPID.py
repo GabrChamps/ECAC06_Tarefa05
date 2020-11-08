@@ -10,6 +10,7 @@ matriculas = [2017003772]
 freqMat = 0.0
 timeMat = 0.0
 estado = "busca"
+ang = 0
 
 
 kp = 1
@@ -60,7 +61,7 @@ def scanCallBack(msg):
 
 # TIMER - Control Loop ----------------------------------------------
 def timerCallBack(event):
-    global lastError, sumError, estado
+    global lastError, sumError, estado, ang
     
     setpoint = 0.5
     scan_len = len(scan.ranges)
@@ -75,15 +76,10 @@ def timerCallBack(event):
         print(min(scan.ranges[scan_len-10 : scan_len+10]))
         if min(scan.ranges[scan_len-10 : scan_len+10]) < 100:
             
-            erroAng = min(scan.ranges[scan_len-10 : scan_len+10])-min(scan.ranges[scan_len-2 : scan_len+2])
-            arroAng = abs(erroAng)
+            estado = 'avanca'
+            msg.angular.z = 0
+            ang = getAngle(odom) #Salvar a direcao correta
             
-            if erroAng < 0.5:
-                estado = 'avanca'
-                msg.angular.z = 0 
-            else:
-                msg.angular.z = 0.1
-        
         else:
             msg.angular.z = 0.3
             
@@ -109,9 +105,10 @@ def timerCallBack(event):
             control = 1
         elif control < -1:
             control = -1
-        
+            
         
         msg.linear.x = control
+        msg.angular.z = 0.01*(ang - getAngle(odom))
         
         if abs(error) < 0.05 and abs(sumError) <0.1 and abs(varError) <0.01:
             estado = 'chegou'
