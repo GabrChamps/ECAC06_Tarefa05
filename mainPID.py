@@ -99,7 +99,7 @@ def timerCallBack(event):
         D = kd*varError
         control = P+I+D
         #print(P, I, D, control)
-        print(min(scan.ranges[scan_len-10 : scan_len+10]))
+        #print(min(scan.ranges[scan_len-10 : scan_len+10]))
         
         if control > 1:
             control = 1
@@ -109,6 +109,7 @@ def timerCallBack(event):
         
         msg.linear.x = control
         msg.angular.z = 0.01*(ang - getAngle(odom))
+        print(ang - getAngle(odom))
         
         if abs(error) < 0.05 and abs(sumError) <0.1 and abs(varError) <0.01:
             estado = 'chegou'
