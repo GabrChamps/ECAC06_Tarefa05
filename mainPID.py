@@ -11,6 +11,7 @@ freqMat = 0.0
 timeMat = 0.0
 estado = "busca"
 ang = 0
+cont = 0
 
 
 kp = 0.15
@@ -75,10 +76,12 @@ def timerCallBack(event):
     elif estado == 'busca':
         print(min(scan.ranges[scan_len-10 : scan_len+10]))
         if min(scan.ranges[scan_len-10 : scan_len+10]) < 100:
-            
-            estado = 'avanca'
-            msg.angular.z = 0
-            ang = getAngle(odom) #Salvar a direcao correta
+            cont+=1
+            if cont >10:
+                estado = 'avanca'
+                msg.angular.z = 0
+            else:
+                msg.angular.z = -0.1
             
         else:
             msg.angular.z = 0.3
@@ -99,18 +102,15 @@ def timerCallBack(event):
         D = kd*varError
         control = P+I+D
         #print(P, I, D, control)
-        #print(min(scan.ranges[scan_len-10 : scan_len+10]))
+        print(min(scan.ranges[scan_len-10 : scan_len+10]))
         
         if control > 1:
             control = 1
         elif control < -1:
             control = -1
             
-        
         msg.linear.x = control
-        msg.angular.z = 0.05*(ang - getAngle(odom))
-        print(msg.angular.z)
-        
+
         if abs(error) < 0.05 and abs(sumError) <0.1 and abs(varError) <0.01:
             estado = 'chegou'
             print ('Chegou ao destino')
