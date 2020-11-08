@@ -62,7 +62,7 @@ def scanCallBack(msg):
 
 # TIMER - Control Loop ----------------------------------------------
 def timerCallBack(event):
-    global lastError, sumError, estado, ang
+    global lastError, sumError, estado, cont
     
     setpoint = 0.5
     scan_len = len(scan.ranges)
