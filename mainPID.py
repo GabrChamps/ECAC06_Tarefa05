@@ -13,8 +13,8 @@ estado = "busca"
 ang = 0
 
 
-kp = 0.1
-ki = 0.04
+kp = 0.15
+ki = 0.08
 kd = 0.02
 
 lastError = 0
