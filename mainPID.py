@@ -107,7 +107,9 @@ def timerCallBack(event):
             control = -1
             
         msg.linear.x = control
-        msg.angular.z = 0
+        cont+=1
+        if cont> 5:
+            msg.angular.z = 0
 
         if abs(error) < 0.05 and abs(sumError) <0.1 and abs(varError) <0.01:
             estado = 'chegou'
