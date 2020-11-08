@@ -13,7 +13,7 @@ estado = "busca"
 ang = 0
 
 
-kp = 1
+kp = 0.1
 ki = 0.04
 kd = 0.02
 
