@@ -90,7 +90,7 @@ def timerCallBack(event):
     # AVANCA --------------------------------
     
         read = min(scan.ranges[scan_len-10 : scan_len+10])
-        
+        P=I=D=0
         if read < 100:
             error = -(setpoint - read)
             varError = (error-lastError)/timeMat
@@ -99,7 +99,7 @@ def timerCallBack(event):
             P = kp*error
             I = ki*sumError
             D = kd*varError
-        P=I=D=0
+        
         control = P+I+D
         #print(P, I, D, control)
         print(read, P, I, D)
