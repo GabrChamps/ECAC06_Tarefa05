@@ -16,7 +16,7 @@ velAng=0.3
 
 
 kp = 0.2
-ki = 0.02
+ki = 0.015
 kd = 0.02
 
 lastError = 0
@@ -82,7 +82,10 @@ def timerCallBack(event):
             msg.angular.z = -velAng
             
         else:
-            msg.angular.z = velAng
+            if min(scan.ranges[scan_len-15 : scan_len+15]) < 100:
+                msg.angular.z = velAng*0.5
+            else:
+                msg.angular.z = velAng
             
 
     elif estado == 'avanca':
