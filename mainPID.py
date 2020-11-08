@@ -10,7 +10,6 @@ matriculas = [2017003772]
 freqMat = 0.0
 timeMat = 0.0
 estado = "busca"
-cont = 0
 
 
 kp = 1
@@ -61,52 +60,56 @@ def scanCallBack(msg):
 
 # TIMER - Control Loop ----------------------------------------------
 def timerCallBack(event):
-    global lastError, sumError, estado, cont
+    global lastError, sumError, estado
     
     setpoint = 0.5
     scan_len = len(scan.ranges)
     msg = Twist()
    
+    if not(scan_len > 0):
+        msg.angular.z = 0
+        msg.linear.x = 0
+        
     # POSICIONA DIRECAO ---------------------------------   
-    if estado == 'busca':
-        if scan_len > 0:
-            print(min(scan.ranges[scan_len-10 : scan_len+10]))
-            if min(scan.ranges[scan_len-10 : scan_len+10]) < 100:
-                cont +=1
-                if cont> freqMat:
-                    estado = 'avanca'
-                msg.angular.z = 0
+    elif estado == 'busca':
+        print(min(scan.ranges[scan_len-10 : scan_len+10]))
+        if min(scan.ranges[scan_len-10 : scan_len+10]) < 100:
             
+            erroAng = min(scan.ranges[scan_len-10 : scan_len+10])-min(scan.ranges[scan_len-2 : scan_len+2])
+            arroAng = abs(erroAng)
+            
+            if erroAng < 0.5:
+                estado = 'avanca'
+                msg.angular.z = 0 
             else:
-                msg.angular.z = 0.3 
+                msg.angular.z = 0.1
         
         else:
-            msg.angular.z = 0
-        
+            msg.angular.z = 0.3
+            
+
     elif estado == 'avanca':
   
     # AVANCA --------------------------------
     
-        if scan_len > 0:
-            read = min(scan.ranges[scan_len-10 : scan_len+10])
-    
-            error = -(setpoint - read)
-            varError = (error-lastError)/timeMat
-            sumError+=error*timeMat
-            
-            P = kp*error
-            I = ki*sumError
-            D = kd*varError
-            control = P+I+D
-            #print(P, I, D, control)
-            print(min(scan.ranges[scan_len-10 : scan_len+10]))
-            
-            if control > 1:
-                control = 1
-            elif control < -1:
-                control = -1
-        else:
-            control = 0        
+        read = min(scan.ranges[scan_len-10 : scan_len+10])
+
+        error = -(setpoint - read)
+        varError = (error-lastError)/timeMat
+        sumError+=error*timeMat
+        
+        P = kp*error
+        I = ki*sumError
+        D = kd*varError
+        control = P+I+D
+        #print(P, I, D, control)
+        print(min(scan.ranges[scan_len-10 : scan_len+10]))
+        
+        if control > 1:
+            control = 1
+        elif control < -1:
+            control = -1
+        
         
         msg.linear.x = control
         
