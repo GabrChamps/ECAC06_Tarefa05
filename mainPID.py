@@ -101,7 +101,7 @@ def timerCallBack(event):
         D = kd*varError
         control = P+I+D
         #print(P, I, D, control)
-        print('distancia: '+str(min(scan.ranges[scan_len-5 : scan_len+5)))
+        #print(min(scan.ranges[scan_len-5 : scan_len+5))
         
         if control > 1:
             control = 1
