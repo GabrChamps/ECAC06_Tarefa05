@@ -79,8 +79,8 @@ def timerCallBack(event):
         if min(scan.ranges[scan_len-5 : scan_len+5]) < 100:
            
             estado = 'avanca'
-            msg.angular.z = -velAng
-            
+            #msg.angular.z = -velAng
+            msg.angular.z = 0
         else:
             if min(scan.ranges[scan_len-20 : scan_len+20]) < 100:
                 msg.angular.z = velAng*0.5
@@ -123,7 +123,7 @@ def timerCallBack(event):
 
         if read>100:
             estado = 'busca'
-            velAng = -velAng/0.3
+            velAng = -velAng
             
         
     
