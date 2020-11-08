@@ -108,8 +108,8 @@ def timerCallBack(event):
             
         
         msg.linear.x = control
-        msg.angular.z = 0.01*(ang - getAngle(odom))
-        print(ang - getAngle(odom))
+        msg.angular.z = 0.05*(ang - getAngle(odom))
+        print(msg.angular.z)
         
         if abs(error) < 0.05 and abs(sumError) <0.1 and abs(varError) <0.01:
             estado = 'chegou'
