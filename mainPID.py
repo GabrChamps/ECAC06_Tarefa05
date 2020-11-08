@@ -89,8 +89,8 @@ def timerCallBack(event):
     # AVANCA --------------------------------
     
         read = min(scan.ranges[scan_len-5 : scan_len+5])
-        right = min(scan.ranges[scan_len+5 : scan_len+15])
-        left = min(scan.ranges[scan_len-15 : scan_len-5])
+        right = min(scan.ranges[scan_len-0 : scan_len+15])
+        left = min(scan.ranges[scan_len-15 : scan_len+0])
 
         error = -(setpoint - read)
         varError = (error-lastError)/timeMat
@@ -101,7 +101,7 @@ def timerCallBack(event):
         D = kd*varError
         control = P+I+D
         #print(P, I, D, control)
-        #print(min(scan.ranges[scan_len-5 : scan_len+5))
+        print(read)
         
         if control > 1:
             control = 1
@@ -117,9 +117,9 @@ def timerCallBack(event):
         #    msg.angular.z = -0.1
         #    cont +=1
         msg.linear.x = control
-        if right < head:
+        if right < read:
             msg.angular.z = +0.3
-        elif left < head:
+        elif left < read:
             msg.angular.z = -0.3
         else:
             msg.angular.z = 0
