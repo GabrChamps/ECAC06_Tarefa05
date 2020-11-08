@@ -122,13 +122,7 @@ def timerCallBack(event):
             estado = 'busca'
             velAng = -velAng/0.3
             
-        if abs(error) < 0.05 and abs(sumError) <0.1 and abs(varError) <0.01:
-            estado = 'chegou'
-            print ('Chegou ao destino')
-    
-    elif estado == 'chegou':
-        msg.linear.x = 0
-        msg.angular.z = 0
+        
     
     
     
