@@ -74,8 +74,8 @@ def timerCallBack(event):
         
     # POSICIONA DIRECAO ---------------------------------   
     elif estado == 'busca':
-        print(min(scan.ranges[scan_len-10 : scan_len+10]))
-        if min(scan.ranges[scan_len-10 : scan_len+10]) < 100:
+        print(min(scan.ranges[scan_len-5 : scan_len+5]))
+        if min(scan.ranges[scan_len-5 : scan_len+5]) < 100:
            
             estado = 'avanca'
             msg.angular.z = -0.3
@@ -88,7 +88,9 @@ def timerCallBack(event):
   
     # AVANCA --------------------------------
     
-        read = min(scan.ranges[scan_len-10 : scan_len+10])
+        read = min(scan.ranges[scan_len-5 : scan_len+5])
+        right = min(scan.ranges[scan_len+5 : scan_len+15])
+        left = min(scan.ranges[scan_len-15 : scan_len-5])
 
         error = -(setpoint - read)
         varError = (error-lastError)/timeMat
@@ -99,7 +101,7 @@ def timerCallBack(event):
         D = kd*varError
         control = P+I+D
         #print(P, I, D, control)
-        print('distancia: '+str(min(scan.ranges[scan_len-10 : scan_len+10])))
+        print('distancia: '+str(min(scan.ranges[scan_len-5 : scan_len+5)))
         
         if control > 1:
             control = 1
@@ -107,13 +109,20 @@ def timerCallBack(event):
             control = -1
         
         
-        if cont> 0.7*freqMat:    
-            msg.linear.x = control
-            msg.angular.z = 0
+        #if cont> 0.7*freqMat:    
+        #    msg.linear.x = control
+        #    msg.angular.z = 0
+        #else:
+        #    msg.linear.x = 0
+        #    msg.angular.z = -0.1
+        #    cont +=1
+        msg.linear.x = control
+        if right < head:
+            msg.angular.z = +0.3
+        elif left < head:
+            msg.angular.z = -0.3
         else:
-            msg.linear.x = 0
-            msg.angular.z = -0.1
-            cont +=1
+            msg.angular.z = 0
 
         if abs(error) < 0.05 and abs(sumError) <0.1 and abs(varError) <0.01:
             estado = 'chegou'
