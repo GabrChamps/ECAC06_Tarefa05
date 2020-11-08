@@ -15,8 +15,8 @@ cont = 0
 velAng=0.3
 
 
-kp = 0.3
-ki = 0.015
+kp = 0.2
+ki = 0.01
 kd = 0.02
 
 lastError = 0
@@ -83,7 +83,7 @@ def timerCallBack(event):
             msg.angular.z = 0
         else:
             if min(scan.ranges[scan_len-20 : scan_len+20]) < 100:
-                msg.angular.z = velAng*0.5
+                msg.angular.z = velAng*0.2
             else:
                 msg.angular.z = velAng
             
@@ -113,13 +113,9 @@ def timerCallBack(event):
             control = -1
         
         
-        #if cont> 0.7*freqMat:    
         msg.linear.x = control
         msg.angular.z = 0
-        #else:
-        #    msg.linear.x = 0
-        #    msg.angular.z = -0.1
-        #    cont +=1
+
 
         if read>100:
             estado = 'busca'
