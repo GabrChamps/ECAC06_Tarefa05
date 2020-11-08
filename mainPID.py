@@ -16,7 +16,7 @@ velAng=0.3
 
 
 kp = 0.2
-ki = 0.04
+ki = 0.02
 kd = 0.02
 
 lastError = 0
