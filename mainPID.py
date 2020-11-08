@@ -1,3 +1,4 @@
+#git add mainPID.py && git commit -m 'commit' && git push origin main
 import rospy
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
@@ -10,7 +11,7 @@ freqMat = 0.0
 timeMat = 0.0
 
 kp = 1
-ki = 0.1
+ki = 0.04
 kd = 0.05
 
 lastError = 0
