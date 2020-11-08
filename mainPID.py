@@ -10,8 +10,8 @@ freqMat = 0.0
 timeMat = 0.0
 
 kp = 1
-ki = 1
-kd = 1
+ki = 0.1
+kd = 0.05
 
 lastError = 0
 sumError = 0
