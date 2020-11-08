@@ -118,7 +118,7 @@ def timerCallBack(event):
 
         if read>100:
             estado = 'busca'
-            velAng = -velAng
+            velAng = -velAng/0.3
             
         if abs(error) < 0.05 and abs(sumError) <0.1 and abs(varError) <0.01:
             estado = 'chegou'
