@@ -76,12 +76,9 @@ def timerCallBack(event):
     elif estado == 'busca':
         print(min(scan.ranges[scan_len-10 : scan_len+10]))
         if min(scan.ranges[scan_len-10 : scan_len+10]) < 100:
-            cont+=1
-            if cont >freqMat:
-                estado = 'avanca'
-                msg.angular.z = 0
-            else:
-                msg.angular.z = -0.1
+           
+            estado = 'avanca'
+            msg.angular.z = -0.3
             
         else:
             msg.angular.z = 0.3
@@ -110,6 +107,7 @@ def timerCallBack(event):
             control = -1
             
         msg.linear.x = control
+        msg.angular.z = 0
 
         if abs(error) < 0.05 and abs(sumError) <0.1 and abs(varError) <0.01:
             estado = 'chegou'
