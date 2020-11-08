@@ -107,7 +107,7 @@ def timerCallBack(event):
             control = -1
         
         
-        if cont> 15:    
+        if cont> 0.7*freqMat:    
             msg.linear.x = control
             msg.angular.z = 0
         else:
