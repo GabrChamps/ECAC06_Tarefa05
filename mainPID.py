@@ -6,6 +6,8 @@ import tf
 import math
 
 matriculas = [2017003772]
+freqMat = 0.0
+timeMat = 0.0
 
 kp = 1
 ki = 1
@@ -40,7 +42,8 @@ def mediaSomaMatriculas(arrayMat):
     return avg
 
 freqMat = mediaSomaMatriculas(matriculas)
-timeMat = 1/freqMat
+timeMat = 1.0/freqMat
+print(freqMat, timeMat)
 
 # CALLBACKS ---------------------------------------------------------
 def odomCallBack(msg):
