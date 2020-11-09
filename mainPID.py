@@ -1,4 +1,6 @@
 #git add mainPID.py && git commit -m 'commit' && git push origin main
+#(0.29069264650013604, 2.09970006571407)
+
 import rospy
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
@@ -99,6 +101,8 @@ def timerCallBack(event):
             error = -(setpoint - read)
             varError = (error-lastError)/timeMat
             sumError+=error*timeMat
+            
+            lastError = error   
             
             P = kp*error
             I = ki*sumError
