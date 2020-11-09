@@ -6,7 +6,7 @@ from sensor_msgs.msg import LaserScan
 import tf
 import math
 
-matriculas = [2017003772]
+matriculas = [2017003772, 2019000168]
 freqMat = 0.0
 timeMat = 0.0
 estado = "busca"
@@ -49,7 +49,7 @@ def mediaSomaMatriculas(arrayMat):
 
 freqMat = mediaSomaMatriculas(matriculas)
 timeMat = 1.0/freqMat
-print(freqMat, timeMat)
+print('Frequencia: '+str(freqMat)+' Hz')
 
 # CALLBACKS ---------------------------------------------------------
 def odomCallBack(msg):
