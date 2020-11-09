@@ -12,8 +12,6 @@ matriculas = [2017003772, 2016000168, 2017001160, 2016018028]
 freqMat = 0.0
 timeMat = 0.0
 estado = "busca"
-ang = 0
-cont = 0
 velAng=0.3
 
 
@@ -65,7 +63,7 @@ def scanCallBack(msg):
 
 # TIMER - Control Loop ----------------------------------------------
 def timerCallBack(event):
-    global lastError, sumError, estado, cont, velAng
+    global lastError, sumError, estado, velAng
     
     setpoint = 0.5
     scan_len = len(scan.ranges)
@@ -123,8 +121,6 @@ def timerCallBack(event):
 
         if read>100:
             estado = 'busca'
-            #velAng = -velAng
-            
         
     
     
