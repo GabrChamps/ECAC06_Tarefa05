@@ -46,7 +46,7 @@ def mediaSomaMatriculas(arrayMat):
             
         avg+=sumMat
         
-    avg = avg/len(arrayMat)
+    avg = float(avg)/len(arrayMat)
     return avg
 
 freqMat = mediaSomaMatriculas(matriculas)
