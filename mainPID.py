@@ -8,7 +8,7 @@ from sensor_msgs.msg import LaserScan
 import tf
 import math
 
-matriculas = [2017003772, 2019000168, 2017001160, 2016018028]
+matriculas = [2017003772, 2016000168, 2017001160, 2016018028]
 freqMat = 0.0
 timeMat = 0.0
 estado = "busca"
